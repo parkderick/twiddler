@@ -1,0 +1,18 @@
+h1 {
+    font-family: 'Fjalla One', sans-serif;
+    color: blue
+}
+
+.time {
+    font-size: 12px;
+}
+
+span {
+    color: blue;
+}
+
+.tweet {
+    border: 1px dotted black;
+    padding: 20px;
+    margin: 20px;
+}

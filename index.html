@@ -3,25 +3,72 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link href="style.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" type="text/css" rel="stylesheet">
   </head>
   <body>
+    <header>
+      <h1>Twiddler</h1>
+      <button class="refresh">New Tweeds</button>
+      <button class="home">Home</button>
+    </header>
+
+    <main>
+      <section class="feed"></section>
+    </main>
+
     <script>
-
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
-
+        
+        //Intial Home Screen
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          var $tweet = $('<div class=tweet></div>');
+          $tweet.html(`<span>@${tweet.user}</span>`)
+          var $message = $('<div class=message></div>')
+          $message.text(tweet.message).appendTo($tweet);
+          var $time = $('<div class=time></div>')
+          $time.text(tweet.created_at).appendTo($tweet);
+          $tweet.appendTo('.feed');
           index -= 1;
         }
+        var initial = streams.home.length
 
+        //HomePage
+        $(".home").click(function() {
+          $('div').show(300)
+        })
+
+        //Button
+        $('.refresh').click(function() {
+          newTwidds();
+        });
+
+        function newTwidds() {
+          for (var i = initial; i < streams.home.length; i++) {
+            var newTwidd = streams.home[i];
+            var $newTwidd = $('<div class=tweet></div>');
+            $newTwidd.html(`<span>@${newTwidd.user}</span>`)
+            var $newMessage = $('<div class=message></div>')
+            $newMessage.text(newTwidd.message).appendTo($newTwidd);
+            var $newTime = $('<div class=time></div>')
+            $newTime.text(newTwidd.created_at).appendTo($newTwidd);
+            $newTwidd.prependTo('.feed');
+          }
+          initial = streams.home.length
+          $('span').click(function() {
+          var name = $(this).text()
+          $(`.tweet:not(:contains(${name}))`).hide(300)
+          })
+        }
+
+        //Filter
+        $('span').click(function() {
+          var name = $(this).text()
+          $(`.tweet:not(:contains(${name}))`).hide(300)
+        })
       });
-
     </script>
   </body>
 </html>
